@@ -5,17 +5,18 @@ using TestMaker.Models;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace TestMaker.Controllers
 {
     [Route("api/[controller]")]
-    public class QuestionController : Controller
+    public class ResultController : Controller
     {
         #region RESTful conventions methods
         /// <summary>
-        /// Retrieve the Question with the given {id}
+        /// Retrieve the Result with the given {id}
         /// </summary>
-        /// <param name="id">The ID of an existing Question</param>
-        /// <returns>The Question with the given {id}</returns>
+        /// <param name="id">The ID of an existing Result</param>
+        /// <returns>The Result with the given {id}</returns>
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -23,28 +24,28 @@ namespace TestMaker.Controllers
         }
 
         /// <summary>
-        /// Add a new Question to the Database
+        /// Add a new Result to the Database
         /// </summary>
-        /// <param name="question">The Question(model) containing the data to insert</param>
+        /// <param name="result">The Result(model) containing the data to insert</param>
         [HttpPut]
-        public IActionResult Put(Question question)
+        public IActionResult Put(Result result)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Edit the Question with the given {id}
+        /// Edit the Result with the given {id}
         /// </summary>
-        /// <param name="question">The Question(model) containing the data to update</param>
-        public IActionResult Post(Question question)
+        /// <param name="result">The Result(model) containing the data to update</param>
+        public IActionResult Post(Result result)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Delete the Question with the given {id} from the Database
+        /// Delete the Result with the given {id} from the Database
         /// </summary>
-        /// <param name="id">The ID of an existing Question</param>
+        /// <param name="id">The ID of an existing Result</param>
         public IActionResult Delete(int id)
         {
             throw new NotImplementedException();
@@ -56,10 +57,10 @@ namespace TestMaker.Controllers
         [HttpGet("All/{quizId}")]
         public IActionResult All(int quizId)
         {
-            var sampleQuestions = new List<Question>();
+            var sampleResults = new List<Result>();
 
-            //add a first sample question
-            sampleQuestions.Add(new Question()
+            // add a first sample result
+            sampleResults.Add(new Result()
             {
                 Id = 1,
                 QuizId = quizId,
@@ -68,10 +69,10 @@ namespace TestMaker.Controllers
                 LastModifiedDate = DateTime.Now
             });
 
-            // add a bunch of other sample questions
+            // add a bunch of other sample results
             for (int i = 2; i <= 5; i++)
             {
-                sampleQuestions.Add(new Question()
+                sampleResults.Add(new Result()
                 {
                     Id = i,
                     QuizId = quizId,
@@ -81,14 +82,15 @@ namespace TestMaker.Controllers
                 });
             }
 
-            // output the result in JSON format
+            // output the result to JSON format
             return new JsonResult(
-                sampleQuestions,
+                sampleResults,
                 new JsonSerializerSettings()
                 {
                     Formatting = Formatting.Indented
                 }
             );
         }
+
     }
 }

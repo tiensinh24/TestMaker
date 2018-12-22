@@ -10,8 +10,73 @@ namespace TestMaker.Controllers
     [Route("api/[controller]")]
     public class QuizController : Controller
     {
-        // GET api/quiz/latest
-        [HttpGet("Latest/{num}")]
+        #region RESTful conventions methods
+        /// <summary>
+        /// GET: api/quiz/{}id
+        /// Retrieve the Quiz with the given {id}
+        /// </summary>
+        /// <param name="id">The Id of an existing Quiz</param>
+        /// <returns>The Quiz with the given {id}</returns>
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            // create a sample quiz to match a given request
+            var v = new Quiz()
+            {
+                Id = id,
+                Title = String.Format("Sample quiz with id {0}", id),
+                Description = "Not a real quiz: it's just a sample!",
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now
+            };
+
+            // output the result to JSON format
+            return new JsonResult(
+                v,
+                new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented
+                });
+        }
+        
+        /// <summary>
+        /// Add a new Quiz to the Database
+        /// </summary>
+        /// <param name="quiz">The Quiz(model) containing the data to insert</param>
+        [HttpPut]
+        public IActionResult Put(Quiz quiz)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Edit the Quiz with the given {id}
+        /// </summary>
+        /// <param name="quiz">The Quiz(model) containing the data to update</param>
+        public IActionResult Post(Quiz quiz)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Delete the Quiz with the given {id} from the Database
+        /// </summary>
+        /// <param name="id">The ID of an existing Quiz</param>
+        public IActionResult Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        
+        #region  Attribute-based routing methods
+        /// <summary>
+        /// GET: api/quiz/latest
+        /// Retrieve the {num} latest Quizzes
+        /// </summary>
+        /// <param name="num">The number of quizzes to retrieve</param>
+        /// <returns>The {num} latest Quizzes</returns>
+        [HttpGet("Latest/{num:int?}")]
         public IActionResult Latest(int num = 10)
         {
             var sampleQuizzes = new List<Quiz>();
@@ -48,6 +113,7 @@ namespace TestMaker.Controllers
                 }
             );
         }
+        #endregion
 
         [HttpGet("ByTitle/{num:int?}")]
         public IActionResult ByTitle(int num = 10)
