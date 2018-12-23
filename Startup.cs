@@ -72,6 +72,22 @@ namespace TestMaker
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            #region Seed Database
+            // Create a service scope to get an ApplicationDbContext instance using DI
+            using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                
+                // Create the DB if it doesn't exist and applies any pending migration.
+                dbContext.Database.Migrate();
+
+                // Seed the DB
+                DbSeeder.Seed(dbContext);
+            }
+            
+            #endregion
         }
     }
 }
