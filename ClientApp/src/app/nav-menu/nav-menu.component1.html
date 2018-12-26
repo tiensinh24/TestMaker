@@ -1,0 +1,25 @@
+<header>
+  <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
+    <div class="container">
+        <div [routerLink]="['/home']">
+          <img src="/ClientApp/src/dist/res/img/logo.jpeg" alt="TestMaker">
+        </div>      
+      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
+        <ul class="navbar-nav flex-grow">
+          <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="fas fa-home nav-link text-dark" [routerLink]='["/"]'>Home</a>
+          </li>       
+          <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="fas fa-info-circle nav-link text-dark" [routerLink]='["/about"]'>About</a>
+          </li>       
+          <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="fas fa-sign-in-alt nav-link text-dark" [routerLink]='["/login"]'>Login</a>
+          </li>          
+          <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="fas fa-plus nav-link text-dark" [routerLink]='["/quiz/create"]'>Create</a>
+          </li> 
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

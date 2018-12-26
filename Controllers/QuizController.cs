@@ -6,21 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using TestMaker.Data;
 using Mapster;
+using TestMaker.Controllers;
+using TestMaker.Data.Models;
 
 namespace TestMaker.Controllers
 {
-    [Route("api/[controller]")]
-    public class QuizController : Controller
+    public class QuizController : BaseApiController
     {
-        #region Private Fields
-        private readonly ApplicationDbContext _context;
-        #endregion
-
         #region Constructor
         public QuizController(ApplicationDbContext context)
-        {
-            this._context = context;
-        }
+            : base(context) { }
         #endregion
 
         #region RESTful conventions methods
@@ -33,15 +28,21 @@ namespace TestMaker.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var quiz = _context.Quizzes.Where(i => i.Id == id).FirstOrDefault();
+            var quiz = _context.Quizzes.Where(i => i.Id == id)
+                .FirstOrDefault();
 
-            // output the result in JSON format
+            // handle requests asking for non-existing quizzes
+            if (quiz == null)
+            {
+                return NotFound(new
+                {
+                    Error = String.Format("Quiz ID {0} has not been found", id)
+                });
+            }
+
             return new JsonResult(
                 quiz.Adapt<QuizViewModel>(),
-                new JsonSerializerSettings()
-                {
-                    Formatting = Formatting.Indented
-                });
+                JsonSettings);
         }
 
         /// <summary>
@@ -49,9 +50,33 @@ namespace TestMaker.Controllers
         /// </summary>
         /// <param name="model">The QuizViewModel containing the data to insert</param>
         [HttpPut]
-        public IActionResult Put(QuizViewModel model)
+        public IActionResult Put([FromBody]QuizViewModel model)
         {
-            throw new NotImplementedException();
+            // return a generic HTTP Status 500 (Server Error)
+            // if the client payload is invalid.
+            if (model == null) return new StatusCodeResult(500);
+
+            // map the ViewModel to the Model
+            var quiz = model.Adapt<Quiz>();
+
+            // override those properties 
+            //   that should be set from the server-side only
+            quiz.CreatedDate = DateTime.Now;
+            quiz.LastModifiedDate = quiz.CreatedDate;
+
+            // Set a temporary author using the Admin user's userId
+            // as user login isn't supported yet: we'll change this later on.
+            quiz.UserId = _context.Users.Where(u => u.Username == "Admin")
+                .FirstOrDefault().Id;
+
+            // add the new quiz
+            _context.Quizzes.Add(quiz);
+            // persist the changes into the Database.
+            _context.SaveChanges();
+
+            // return the newly-created Quiz to the client.
+            return new JsonResult(quiz.Adapt<QuizViewModel>()
+                , JsonSettings);
         }
 
         /// <summary>
@@ -59,9 +84,42 @@ namespace TestMaker.Controllers
         /// </summary>
         /// <param name="model">The QuizViewModel containing the data to update</param>
         [HttpPost]
-        public IActionResult Post(QuizViewModel model)
+        public IActionResult Post([FromBody]QuizViewModel model)
         {
-            throw new NotImplementedException();
+            // return a generic HTTP Status 500 (Server Error)
+            // if the client payload is invalid.
+            if (model == null) return new StatusCodeResult(500);
+
+            // retrieve the quiz to edit
+            var quiz = _context.Quizzes.Where(q => q.Id ==
+                        model.Id).FirstOrDefault();
+
+            // handle requests asking for non-existing quizzes
+            if (quiz == null)
+            {
+                return NotFound(new
+                {
+                    Error = String.Format("Quiz ID {0} has not been found", model.Id)
+                });
+            }
+
+            // handle the update (without object-mapping)
+            //   by manually assigning the properties 
+            //   we want to accept from the request
+            quiz.Title = model.Title;
+            quiz.Description = model.Description;
+            quiz.Text = model.Text;
+            quiz.Notes = model.Notes;
+
+            // properties set from server-side
+            quiz.LastModifiedDate = quiz.CreatedDate;
+
+            // persist the changes into the Database.
+            _context.SaveChanges();
+
+            // return the updated Quiz to the client.
+            return new JsonResult(quiz.Adapt<QuizViewModel>()
+                , JsonSettings);
         }
 
         /// <summary>
@@ -71,7 +129,26 @@ namespace TestMaker.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            throw new NotImplementedException();
+            // retrieve the quiz from the Database
+            var quiz = _context.Quizzes.Where(i => i.Id == id)
+                .FirstOrDefault();
+
+            // handle requests asking for non-existing quizzes
+            if (quiz == null)
+            {
+                return NotFound(new
+                {
+                    Error = String.Format("Quiz ID {0} has not been found", id)
+                });
+            }
+
+            // remove the quiz from the _context.
+            _context.Quizzes.Remove(quiz);
+            // persist the changes into the Database.
+            _context.SaveChanges();
+
+            // return an HTTP Status 200 (OK).
+            return new OkResult();
         }
         #endregion
 
@@ -86,17 +163,12 @@ namespace TestMaker.Controllers
         public IActionResult Latest(int num = 10)
         {
             var latest = _context.Quizzes
-                .OrderByDescending(i => i.CreatedDate)
+                .OrderByDescending(q => q.CreatedDate)
                 .Take(num)
                 .ToArray();
-
-            // output the result in JSON format
             return new JsonResult(
                 latest.Adapt<QuizViewModel[]>(),
-                new JsonSerializerSettings()
-                {
-                    Formatting = Formatting.Indented
-                });
+                JsonSettings);
         }
 
         /// <summary>
@@ -109,16 +181,12 @@ namespace TestMaker.Controllers
         public IActionResult ByTitle(int num = 10)
         {
             var byTitle = _context.Quizzes
-                .OrderBy(i => i.Title)
+                .OrderBy(q => q.Title)
                 .Take(num)
                 .ToArray();
-
             return new JsonResult(
                 byTitle.Adapt<QuizViewModel[]>(),
-                new JsonSerializerSettings()
-                {
-                    Formatting = Formatting.Indented
-                });
+                JsonSettings);
         }
 
         /// <summary>
@@ -134,13 +202,9 @@ namespace TestMaker.Controllers
                 .OrderBy(q => Guid.NewGuid())
                 .Take(num)
                 .ToArray();
-
             return new JsonResult(
                 random.Adapt<QuizViewModel[]>(),
-                new JsonSerializerSettings()
-                {
-                    Formatting = Formatting.Indented
-                });
+                JsonSettings);
         }
         #endregion
     }

@@ -1,3 +1,4 @@
+using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -71,7 +72,7 @@ namespace TestMaker
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
-            });
+            });            
 
             #region Seed Database
             // Create a service scope to get an ApplicationDbContext instance using DI
