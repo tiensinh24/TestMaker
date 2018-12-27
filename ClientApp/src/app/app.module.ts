@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -44,21 +44,22 @@ import { QuizSearchComponent } from './quiz/quiz-search/quiz-search.component';
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
       HttpClientModule,
       FormsModule,
+      ReactiveFormsModule,
       RouterModule.forRoot([
          { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
-            { path: 'quiz/create', component: QuizEditComponent },
-            { path: 'quiz/edit/:id', component: QuizEditComponent },
-            { path: 'quiz/:id', component: QuizDetailComponent },
-            { path: 'question/create/:id', component: QuestionEditComponent },
-            { path: 'question/edit/:id', component: QuestionEditComponent },
-            { path: 'answer/create/:id', component: AnswerEditComponent },
-            { path: 'answer/edit/:id', component: AnswerEditComponent },
-            { path: 'result/create/:id', component: ResultEditComponent },
-            { path: 'result/edit/:id', component: ResultEditComponent },
-            { path: 'about', component: AboutComponent },
-            { path: 'login', component: LoginComponent },
-            { path: '**', component: PageNotFoundComponent }
+         { path: 'home', component: HomeComponent },
+         { path: 'quiz/create', component: QuizEditComponent },
+         { path: 'quiz/edit/:id', component: QuizEditComponent },
+         { path: 'quiz/:id', component: QuizDetailComponent },
+         { path: 'question/create/:id', component: QuestionEditComponent },
+         { path: 'question/edit/:id', component: QuestionEditComponent },
+         { path: 'answer/create/:id', component: AnswerEditComponent },
+         { path: 'answer/edit/:id', component: AnswerEditComponent },
+         { path: 'result/create/:id', component: ResultEditComponent },
+         { path: 'result/edit/:id', component: ResultEditComponent },
+         { path: 'about', component: AboutComponent },
+         { path: 'login', component: LoginComponent },
+         { path: '**', component: PageNotFoundComponent }
       ])
    ],
    providers: [],
