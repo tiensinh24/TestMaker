@@ -66,7 +66,7 @@ namespace TestMaker.Controllers
 
             // Set a temporary author using the Admin user's userId
             // as user login isn't supported yet: we'll change this later on.
-            quiz.UserId = _context.Users.Where(u => u.Username == "Admin")
+            quiz.UserId = _context.Users.Where(u => u.UserName == "Admin")
                 .FirstOrDefault().Id;
 
             // add the new quiz

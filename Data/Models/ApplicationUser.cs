@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace TestMaker.Data.Models
 {
-    public class ApplicationUser
+    public class ApplicationUser : IdentityUser
     {
         #region
         public ApplicationUser()
@@ -14,14 +15,15 @@ namespace TestMaker.Data.Models
         #endregion
 
         #region Properties
-        [Key]
-        [Required]
-        public string Id { get; set; }
-        [Required]
-        [MaxLength(128)]
-        public string Username { get; set; }
-        [Required]
-        public string Email { get; set; }
+        // Already exist in IdentityUser
+        // [Key]
+        // [Required]
+        // public string Id { get; set; }
+        // [Required]
+        // [MaxLength(128)]
+        // public string UserName { get; set; }
+        // [Required]
+        // public string Email { get; set; }
         public string DisplayName { get; set; }
         public string Notes { get; set; }
         [Required]
