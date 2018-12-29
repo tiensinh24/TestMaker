@@ -16,8 +16,8 @@ namespace TestMaker.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Quiz>().ToTable("Quizzes");
+            
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users");
         }
         #endregion
 

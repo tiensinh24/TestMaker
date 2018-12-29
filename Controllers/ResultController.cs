@@ -8,14 +8,19 @@ using TestMaker.Data;
 using Mapster;
 using TestMaker.Controllers;
 using TestMaker.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 namespace TestMaker.Controllers
 {
     public class ResultController : BaseApiController
     {
         #region Constructor
-        public ResultController(ApplicationDbContext context)
-            : base(context) { }
+        public ResultController(ApplicationDbContext context,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration
+            ) : base(context, roleManager, userManager, configuration) { }
         #endregion
 
         #region RESTful conventions methods

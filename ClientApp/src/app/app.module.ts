@@ -20,6 +20,7 @@ import { QuestionListComponent } from './question/question-list/question-list.co
 import { AnswerListComponent } from './answer/answer-list/answer-list.component';
 import { ResultListComponent } from './result/result-list/result-list.component';
 import { QuizSearchComponent } from './quiz/quiz-search/quiz-search.component';
+import { AuthService } from './_services/auth.service';
 
 @NgModule({
    declarations: [
@@ -62,7 +63,9 @@ import { QuizSearchComponent } from './quiz/quiz-search/quiz-search.component';
          { path: '**', component: PageNotFoundComponent }
       ])
    ],
-   providers: [],
+   providers: [
+      AuthService
+   ],
    bootstrap: [AppComponent]
 })
 export class AppModule { }

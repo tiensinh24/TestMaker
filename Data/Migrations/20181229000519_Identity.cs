@@ -8,26 +8,14 @@ namespace TestMaker.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Quizzes_Users_UserId",
-                table: "Quizzes");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Users",
-                table: "Users");
-
-            migrationBuilder.RenameTable(
-                name: "Users",
-                newName: "AspNetUsers");
-
             migrationBuilder.RenameColumn(
                 name: "Username",
-                table: "AspNetUsers",
+                table: "Users",
                 newName: "UserName");
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserName",
-                table: "AspNetUsers",
+                table: "Users",
                 maxLength: 256,
                 nullable: true,
                 oldClrType: typeof(string),
@@ -35,82 +23,77 @@ namespace TestMaker.Data.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Email",
-                table: "AspNetUsers",
+                table: "Users",
                 maxLength: 256,
                 nullable: true,
                 oldClrType: typeof(string));
 
             migrationBuilder.AddColumn<int>(
                 name: "AccessFailedCount",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<string>(
                 name: "ConcurrencyStamp",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "EmailConfirmed",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
                 name: "LockoutEnabled",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<DateTimeOffset>(
                 name: "LockoutEnd",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "NormalizedEmail",
-                table: "AspNetUsers",
+                table: "Users",
                 maxLength: 256,
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "NormalizedUserName",
-                table: "AspNetUsers",
+                table: "Users",
                 maxLength: 256,
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "PasswordHash",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "PhoneNumber",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "PhoneNumberConfirmed",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<string>(
                 name: "SecurityStamp",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "TwoFactorEnabled",
-                table: "AspNetUsers",
+                table: "Users",
                 nullable: false,
                 defaultValue: false);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_AspNetUsers",
-                table: "AspNetUsers",
-                column: "Id");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
@@ -140,9 +123,9 @@ namespace TestMaker.Data.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        name: "FK_AspNetUserClaims_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -160,9 +143,9 @@ namespace TestMaker.Data.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        name: "FK_AspNetUserLogins_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -180,9 +163,9 @@ namespace TestMaker.Data.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        name: "FK_AspNetUserTokens_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -225,21 +208,21 @@ namespace TestMaker.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        name: "FK_AspNetUserRoles_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "AspNetUsers",
+                table: "Users",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "AspNetUsers",
+                table: "Users",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
@@ -270,22 +253,10 @@ namespace TestMaker.Data.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Quizzes_AspNetUsers_UserId",
-                table: "Quizzes",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Quizzes_AspNetUsers_UserId",
-                table: "Quizzes");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -304,69 +275,61 @@ namespace TestMaker.Data.Migrations
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_AspNetUsers",
-                table: "AspNetUsers");
-
             migrationBuilder.DropIndex(
                 name: "EmailIndex",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropIndex(
                 name: "UserNameIndex",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "AccessFailedCount",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "ConcurrencyStamp",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "EmailConfirmed",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "LockoutEnabled",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "LockoutEnd",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "NormalizedEmail",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "NormalizedUserName",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "PasswordHash",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "PhoneNumber",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "PhoneNumberConfirmed",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "SecurityStamp",
-                table: "AspNetUsers");
+                table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "TwoFactorEnabled",
-                table: "AspNetUsers");
-
-            migrationBuilder.RenameTable(
-                name: "AspNetUsers",
-                newName: "Users");
+                table: "Users");
 
             migrationBuilder.RenameColumn(
                 name: "UserName",
@@ -389,19 +352,6 @@ namespace TestMaker.Data.Migrations
                 oldClrType: typeof(string),
                 oldMaxLength: 256,
                 oldNullable: true);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Users",
-                table: "Users",
-                column: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Quizzes_Users_UserId",
-                table: "Quizzes",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
     }
 }
