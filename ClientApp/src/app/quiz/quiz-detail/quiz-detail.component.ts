@@ -2,6 +2,8 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
+import { AuthService } from 'src/app/_services/auth.service';
+
 @Component({
     selector: 'app-quiz-detail',
     templateUrl: './quiz-detail.component.html',
@@ -14,6 +16,7 @@ export class QuizDetailComponent {
     constructor(private activatedRoute: ActivatedRoute,
         private router: Router,
         private http: HttpClient,
+        public auth: AuthService,
         @Inject('BASE_URL') private baseUrl: string) {
 
         // create an empty object from the Quiz interface

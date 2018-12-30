@@ -10,14 +10,19 @@
                 About
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!auth.isLoggedIn()">
             <a [routerLink]="['/login']">
                 Login
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="auth.isLoggedIn()">
             <a [routerLink]="['/quiz/create']">
                 Create a Quiz
+            </a>
+        </li>
+        <li class="nav-item" *ngIf="auth.isLoggedIn()">
+            <a [routerLink]="['/home']" (click)="logout()">
+                Logout
             </a>
         </li>
     </ul>

@@ -40,10 +40,10 @@ export class LoginComponent implements OnInit {
 
       // outputs the login info through a JS alert.
       // IMPORTANT: remove this when test is done
-      alert('Login successful! '
-        + 'USERNAME: ' + username
-        // tslint:disable-next-line:no-non-null-assertion
-        + ' TOKEN: ' + this.authService.getAuth()!.token);
+      // alert('Login successful! '
+      //   + 'USERNAME: ' + username
+      //   // tslint:disable-next-line:no-non-null-assertion
+      //   + ' TOKEN: ' + this.authService.getAuth()!.token);
 
       this.router.navigate(['home']);
     }, error => {

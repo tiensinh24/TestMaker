@@ -81,12 +81,11 @@ namespace TestMaker.Controllers
                 var token = new JwtSecurityToken(
                     issuer: _configuration["Auth:Jwt:Issuer"],
                     audience: _configuration["Auth:Jwt:audience"],
-                    claims:claims,
+                    claims: claims,
                     notBefore: now,
                     expires: now.Add(TimeSpan.FromMinutes(tokenExpirationMins)),
-                        signingCredentials: new SigningCredentials(
-                            issuerSigningKey, SecurityAlgorithms.HmacSha256
-                        )
+                    signingCredentials: new SigningCredentials(
+                        issuerSigningKey, SecurityAlgorithms.HmacSha256)
                 );
 
                 var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);

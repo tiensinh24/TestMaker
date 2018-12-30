@@ -10,6 +10,8 @@ using TestMaker.Controllers;
 using TestMaker.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace TestMaker.Controllers
 {
@@ -55,6 +57,7 @@ namespace TestMaker.Controllers
         /// </summary>
         /// <param name="model">The QuizViewModel containing the data to insert</param>
         [HttpPut]
+        [Authorize]
         public IActionResult Put([FromBody]QuizViewModel model)
         {
             // return a generic HTTP Status 500 (Server Error)
@@ -71,8 +74,11 @@ namespace TestMaker.Controllers
 
             // Set a temporary author using the Admin user's userId
             // as user login isn't supported yet: we'll change this later on.
-            quiz.UserId = _context.Users.Where(u => u.UserName == "Admin")
-                .FirstOrDefault().Id;
+            // quiz.UserId = _context.Users.Where(u => u.UserName == "Admin")
+            //     .FirstOrDefault().Id;
+
+            // retrieve the current userId
+            quiz.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;            
 
             // add the new quiz
             _context.Quizzes.Add(quiz);
@@ -89,6 +95,7 @@ namespace TestMaker.Controllers
         /// </summary>
         /// <param name="model">The QuizViewModel containing the data to update</param>
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody]QuizViewModel model)
         {
             // return a generic HTTP Status 500 (Server Error)
@@ -132,6 +139,7 @@ namespace TestMaker.Controllers
         /// </summary>
         /// <param name="id">The ID of an existing Test</param>
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             // retrieve the quiz from the Database
