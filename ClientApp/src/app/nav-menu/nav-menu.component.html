@@ -12,7 +12,7 @@
         </li>
         <li class="nav-item" *ngIf="!auth.isLoggedIn()">
             <a [routerLink]="['/login']">
-                Login
+                Login/Register
             </a>
         </li>
         <li class="nav-item" *ngIf="auth.isLoggedIn()">

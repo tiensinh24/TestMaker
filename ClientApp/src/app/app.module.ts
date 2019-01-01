@@ -22,6 +22,8 @@ import { ResultListComponent } from './result/result-list/result-list.component'
 import { QuizSearchComponent } from './quiz/quiz-search/quiz-search.component';
 import { AuthService } from './_services/auth.service';
 import { AuthInterceptor } from './_services/auth.interceptor';
+import { AuthResponseInterceptor } from './_services/auth.response.interceptor';
+import { RegisterComponent } from './user/register/register.component';
 
 @NgModule({
    declarations: [
@@ -40,7 +42,8 @@ import { AuthInterceptor } from './_services/auth.interceptor';
       AboutComponent,
       LoginComponent,
       PageNotFoundComponent,
-      QuizSearchComponent
+      QuizSearchComponent,
+      RegisterComponent
    ],
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -61,14 +64,20 @@ import { AuthInterceptor } from './_services/auth.interceptor';
          { path: 'result/edit/:id', component: ResultEditComponent },
          { path: 'about', component: AboutComponent },
          { path: 'login', component: LoginComponent },
+         { path: 'register', component: RegisterComponent },
          { path: '**', component: PageNotFoundComponent }
       ])
    ],
    providers: [
       AuthService,
+      // {
+      //    provide: HTTP_INTERCEPTORS,
+      //    useClass: AuthInterceptor,
+      //    multi: true
+      // },
       {
          provide: HTTP_INTERCEPTORS,
-         useClass: AuthInterceptor,
+         useClass: AuthResponseInterceptor,
          multi: true
       }
    ],

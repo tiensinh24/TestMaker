@@ -27,6 +27,7 @@ namespace TestMaker.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Result> Results { get; set; }
+        public DbSet<Token> Tokens { get; set; }
         #endregion
     }
 }

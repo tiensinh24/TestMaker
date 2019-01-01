@@ -7,7 +7,7 @@ namespace TestMaker.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        #region
+        #region Constructor
         public ApplicationUser()
         {
 
@@ -37,6 +37,7 @@ namespace TestMaker.Data.Models
 
         #region Lazy-Load Properties
         public virtual List<Quiz> Quizzes { get; set; }
+        public virtual List<Token> Tokens { get; set; }
         #endregion        
         #endregion
     }
