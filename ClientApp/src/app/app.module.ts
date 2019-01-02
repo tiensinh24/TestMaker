@@ -24,6 +24,7 @@ import { AuthService } from './_services/auth.service';
 import { AuthInterceptor } from './_services/auth.interceptor';
 import { AuthResponseInterceptor } from './_services/auth.response.interceptor';
 import { RegisterComponent } from './user/register/register.component';
+import { LoginExternalprovidersComponent } from './login/login-externalproviders/login-externalproviders.component';
 
 @NgModule({
    declarations: [
@@ -43,7 +44,8 @@ import { RegisterComponent } from './user/register/register.component';
       LoginComponent,
       PageNotFoundComponent,
       QuizSearchComponent,
-      RegisterComponent
+      RegisterComponent,
+      LoginExternalprovidersComponent
    ],
    imports: [
       BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

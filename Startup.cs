@@ -68,6 +68,12 @@ namespace TestMaker
                     ValidateIssuerSigningKey = true,
                     ValidateAudience = true
                 };
+                cfg.IncludeErrorDetails = true;
+            })
+            // Add Facebook support
+            .AddFacebook(opts => {
+                opts.AppId = Configuration["Facebook:AppId"];
+                opts.AppSecret = Configuration["Facebook:AppSecret"];
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
